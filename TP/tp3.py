@@ -5,69 +5,86 @@ from SPARQLWrapper import SPARQLWrapper, JSON
 from termcolor import colored
 from difflib import SequenceMatcher
 import re 
-
+# Chargement des données
 #nltk.download('maxent_ne_chunker')
 #nltk.download('words')
+
+# Tableau contenant les relations
 relations = []
+
+# Chargement des relations dans un tableau
 file = open("relations.txt","r")
 for ligne in file:
     relations.append(ligne.rstrip('\n\r'))
 #print(relations)
+
+# Méthode permettant de chercher la relation qui ressemble synthématiquement au plus a notre paramètre message
 def check_relations(message):
-    print(message)
+    print("Recherche de la relation machant avec : " + message)
     rel = "none"
+    # Ratio prendra la valeur du ratio du mot qui match le plus avec le paramètre message
     ratio = 0
     for r in relations:
         if(SequenceMatcher(None,message,r).ratio() >= ratio):
             ratio = SequenceMatcher(None,message,r).ratio()
             rel = r
             #print(r + " " + str(ratio))
-    print("Res : " + rel)
+    print("Mot matchant le mieux, res : " + rel)
+    # On retourne la relation qui a le meilleur ratio de ressemblance avec le paramètre message
     return rel
 
 # Parsing du xml
 tree = ET.parse('questions.xml')
 dataset = tree.getroot()
 
+# Tableau de données des questions
 # list[ [STRING] , [TOKENS], [TAGS], [ENTITIES] ]
 liste_questions = []
 for i in range(4):
     liste_questions.append([])
 
+# On va charger notre tableau des questions 
 for questions in dataset:
     for child in questions:
         if(child.attrib.get('lang') == "en"):
             if(child.tag == "string"):
                 #print("String : " + str(child.text))
+                # On récupère les string
                 liste_questions[0].append(child.text)
                 tokens = nltk.word_tokenize(child.text)
+                # On récupère les tokens
                 liste_questions[1].append(tokens)
                 tagged = nltk.pos_tag(tokens)
+                # On récupère les tags
                 liste_questions[2].append(tagged)
+                # On récupère les entities
                 liste_questions[3].append(nltk.chunk.ne_chunk(tagged))
 
-
+# On va maintenant chercher les élements importants des questions 
 for tokens in liste_questions[2]:
     #print(tokens)  
     for token in tokens:
-        #Moyen demande amélioration sur le fait de trouver la relation 3/9
-        if(token[0] == "WhoXX" or token[0] == "whoXX"):
+        # Ici on s'occupe des questions commençant par "who" 3/9
+        if(token[0] == "Who" or token[0] == "who"):
             print(colored(tokens,"red"))
+            # res
             ressources = ""
+            # dbo
             rel = ""
             for token in tokens:  
                 if(token[1] == "VBD"):
+                    # On cherche le verbe qui ressemble le plus aux relations (ex : created -> creator)
                     rel = check_relations(token[0])
-                    # on cherche le verbe qui ressemble le plus aux relations (ex : created -> creator)
-                    #savoir si on cherche une personne ou une organisation
                 if(token[1] == "NNP"):
                     ressources += token[0] + " "
+            # Création du query pour sparql        
             q = "PREFIX dbo: <http://dbpedia.org/ontology/>PREFIX res: <http://dbpedia.org/resource/> SELECT DISTINCT ?uri WHERE {res:" + ressources +rel+" ?uri .}"
             print(colored("Query: " + q,"green"))
             print("\n")
-        #Nickel 1/1
-        if(token[0] == "WhenXX" or token[0] == "whenXX"):
+        # Ici on s'occupe des questions commençant par "When" 1/1
+        if(token[0] == "When" or token[0] == "when"):
             print(colored(tokens,"red"))
+            # res
             ressources = ""
             bool = False
             for token in tokens:  
@@ -79,13 +96,16 @@ for tokens in liste_questions[2]:
                     bool = False
                 else:
                     bool = False
+            # Création du query pour sparql
             q = "PREFIX dbo: <http://dbpedia.org/ontology/>PREFIX res: <http://dbpedia.org/resource/> SELECT DISTINCT ?date WHERE {res:"+ ressources +"dbo:date ?date .}"
             print(colored("Query: " + q,"green"))
             print("\n")
-        # Amélioration de la recherche des bon mots de la relation dans la phrase 6/8
-        if(token[0] == "WhichXX" or token[0] == "whichXX"):
+        # Ici on s'occupe des questions commençant par "Which" 6/8
+        if(token[0] == "Which" or token[0] == "which"):
             print(colored(tokens,"red"))
+            # res
             ressources = ""
+            # dbo
             rel = ""
             bool = False
             for token in tokens:
@@ -103,14 +123,18 @@ for tokens in liste_questions[2]:
                     bool = False
                 else:
                     bool = False
+            # On cherche la relation qui match le plus
             rel = check_relations(rel)
+            # Création du query
             q = "PREFIX dbo: <http://dbpedia.org/ontology/>PREFIX res: <http://dbpedia.org/resource/> SELECT DISTINCT ?date WHERE {res:"+ ressources + rel + " ?date .}"
             print(colored("Query: " + q,"green"))
             print("\n")
-        # Presque parfait voir une amélioration pour bruce carver die    4/5
-        if(token[0] == "WhatXX" or token[0] == "whatXX"):
+        # Ici on s'occupe des questions commençant par "What" 4/5
+        if(token[0] == "What" or token[0] == "what"):
             print(colored(tokens,"red"))
+            # res
             ressources = ""
+            # dbo
             rel = ""
             bool = False
             for token in tokens:  
@@ -130,14 +154,18 @@ for tokens in liste_questions[2]:
                     bool = False
                 else:
                     bool = False
+            # On cherche la relation qui match le plus
             rel = check_relations(rel)
+            # Création du query
             q = "PREFIX dbo: <http://dbpedia.org/ontology/>PREFIX res: <http://dbpedia.org/resource/> SELECT DISTINCT ?date WHERE {res:"+ ressources + rel +" ?date .}"
             print(colored("Query: " + q,"green"))
             print("\n")
-        # 1/2
+        # Ici on s'occupe des questions commençant par "Give" 1/2
         if(token[0] == "Give" or token[0] == "give"):
             print(colored(tokens,"red"))
+            # res
             ressources = ""
+            # foaf
             rel = ""
             bool = False
             for token in tokens:  
@@ -159,20 +187,12 @@ for tokens in liste_questions[2]:
                     bool = False
                 else:
                     bool = False
+            # Création du query
             q = "PREFIX dbo: <http://dbpedia.org/ontology/>PREFIX res: <http://dbpedia.org/resource/> SELECT DISTINCT ?date WHERE {res:"+ ressources + "foaf:" + rel +" ?date .}"
             print(colored("Query: " + q,"green"))
             print("\n")
 
-
-
-
-# exact match / levenshtein owst / WN similarities
-# regex on cherche dans les tokens si il y a un des mots 
-# WHO qui (personne ou organisation) (verbe) + (après le verbe)     X
-# WHICH quel (direct après le which) groupe nominal                 X
-# WHAT quoi (après the)                                             X
-# WHEN quand (date) (après le verbe)                                X   
-# GIVE                                                              X
+# Exemple d'utilisation de la libraire sparql
 
 # SELECT DISTINCT ?uriWHERE {res:Wikipedia dbo:author ?uri .}
 #sparql = SPARQLWrapper("http://dbpedia.org/sparql")
