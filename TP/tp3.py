@@ -18,6 +18,23 @@ for ligne in file:
     relations.append(ligne.rstrip('\n\r'))
 #print(relations)
 
+# Methode pour envoyer les requêtes sparql
+def sparql_query(query):
+    sparql = SPARQLWrapper("http://dbpedia.org/sparql")
+    sparql.setQuery(query)
+    sparql.setReturnFormat(JSON)
+    try:
+        results = sparql.query()
+        results.print_results()
+        print()
+    except:
+        print(colored("ERREUR : BAD REQUEST","yellow"))
+
+
+# Remplace les espaces par un _
+def replace(message):
+  return message.replace(" ", "_")
+
 # Méthode permettant de chercher la relation qui ressemble syntaxematiquement au plus a notre paramètre message
 def check_relations(message):
     print("Recherche de la relation machant avec : " + message)
@@ -59,12 +76,15 @@ for questions in dataset:
                 liste_questions[2].append(tagged)
                 # On récupère les entities
                 liste_questions[3].append(nltk.chunk.ne_chunk(tagged))
+for anwsers in dataset.findall('anwsers'):
+    print("ee")
+    print(anwsers.find('anwser').text)
 
 # Fichier contenant toutes les query
 fichier = open("evaluations.txt", "a")
 
 # On va maintenant chercher les élements importants des questions 
-for tokens in liste_questions[2]:
+for tokens in range(0): #liste_questions[2]
     #print(tokens)  
     for token in tokens:
         # Ici on s'occupe des questions commençant par "who" 3/9
@@ -79,12 +99,17 @@ for tokens in liste_questions[2]:
                     # On cherche le verbe qui ressemble le plus aux relations (ex : created -> creator)
                     rel = check_relations(token[0])
                 if(token[1] == "NNP"):
-                    ressources += token[0] + " "
+                    if(ressources == ""):
+                        ressources += token[0]
+                    else:
+                        ressources += " " + token[0]
             # Création du query pour sparql        
-            q = "PREFIX dbo: <http://dbpedia.org/ontology/>PREFIX res: <http://dbpedia.org/resource/> SELECT DISTINCT ?uri WHERE {res:" + ressources +rel+" ?uri .}"
+            q = "PREFIX dbo: <http://dbpedia.org/ontology/>PREFIX res: <http://dbpedia.org/resource/> SELECT DISTINCT ?uri WHERE {res:" + replace(ressources)  + " " + rel + " ?uri .}"
             print(colored("Query: " + q,"green"))
             print("\n")
             fichier.write(q + "\n")
+            if (ressources != "" and rel != ""):
+                sparql_query(q)
         # Ici on s'occupe des questions commençant par "When" 1/1
         if(token[0] == "When" or token[0] == "when"):
             print(colored(tokens,"red"))
@@ -93,18 +118,23 @@ for tokens in liste_questions[2]:
             bool = False
             for token in tokens:  
                 if(token[1] == "NNP"):
-                    ressources += token[0] + " "
+                    if(ressources == ""):
+                        ressources += token[0]
+                    else:
+                        ressources += " " + token[0]
                     bool = True
                 elif(token[1] == "IN" and bool == True):
-                    ressources += token[0] + " "
+                    ressources += " " + token[0]
                     bool = False
                 else:
                     bool = False
             # Création du query pour sparql
-            q = "PREFIX dbo: <http://dbpedia.org/ontology/>PREFIX res: <http://dbpedia.org/resource/> SELECT DISTINCT ?date WHERE {res:"+ ressources +"dbo:date ?date .}"
+            q = "PREFIX dbo: <http://dbpedia.org/ontology/>PREFIX res: <http://dbpedia.org/resource/> SELECT DISTINCT ?date WHERE {res:"+ replace(ressources)  +" dbo:date ?date .}"
             print(colored("Query: " + q,"green"))
             print("\n")
             fichier.write(q + "\n")
+            if (ressources != "" and rel != ""):
+                sparql_query(q)
         # Ici on s'occupe des questions commençant par "Which" 6/8
         if(token[0] == "Which" or token[0] == "which"):
             print(colored(tokens,"red"))
@@ -121,20 +151,25 @@ for tokens in liste_questions[2]:
                 if(token[1] == "VBG"):
                     rel += token[0] + " "
                 if(token[1] == "NNP"):
-                    ressources += token[0] + " "
+                    if(ressources == ""):
+                       ressources += token[0]
+                    else:
+                        ressources += " " + token[0]
                     bool = True
                 elif(token[1] == "IN" and bool == True):
-                    ressources += token[0] + " "
+                    ressources += " " + token[0]
                     bool = False
                 else:
                     bool = False
             # On cherche la relation qui match le plus
             rel = check_relations(rel)
             # Création du query
-            q = "PREFIX dbo: <http://dbpedia.org/ontology/>PREFIX res: <http://dbpedia.org/resource/> SELECT DISTINCT ?uri WHERE {res:"+ ressources + rel + " ?uri .}"
+            q = "PREFIX dbo: <http://dbpedia.org/ontology/>PREFIX res: <http://dbpedia.org/resource/> SELECT DISTINCT ?uri WHERE {res:"+ replace(ressources)  + " " + rel + " ?uri .}"
             print(colored("Query: " + q,"green"))
             print("\n")
             fichier.write(q + "\n")
+            if (ressources != "" and rel != ""):
+                sparql_query(q)
         # Ici on s'occupe des questions commençant par "What" 4/5
         if(token[0] == "What" or token[0] == "what"):
             print(colored(tokens,"red"))
@@ -153,20 +188,28 @@ for tokens in liste_questions[2]:
                 if(token[1] == "NNS"):
                     rel += token[0] + " "
                 if(token[1] == "NNP" or token[1] == "NNPS"):
-                    ressources += token[0] + " "
+                    if(ressources == ""):
+                        ressources += token[0]
+                    else:
+                        ressources += " " + token[0]
                     bool = True
                 elif(token[1] == "IN" and bool == True):
-                    ressources += token[0] + " "
+                    if(ressources == ""):
+                        ressources += token[0]
+                    else:
+                        ressources += " " + token[0]
                     bool = False
                 else:
                     bool = False
             # On cherche la relation qui match le plus
             rel = check_relations(rel)
             # Création du query
-            q = "PREFIX dbo: <http://dbpedia.org/ontology/>PREFIX res: <http://dbpedia.org/resource/> SELECT DISTINCT ?uri WHERE {res:"+ ressources + rel +" ?uri .}"
+            q = "PREFIX dbo: <http://dbpedia.org/ontology/>PREFIX res: <http://dbpedia.org/resource/> SELECT DISTINCT ?uri WHERE {res:"+ replace(ressources)  + " " + rel +" ?uri .}"
             print(colored("Query: " + q,"green"))
             print("\n")
             fichier.write(q + "\n")
+            if (ressources != "" and rel != ""):
+                sparql_query(q)
         # Ici on s'occupe des questions commençant par "Give" 1/2
         if(token[0] == "Give" or token[0] == "give"):
             print(colored(tokens,"red"))
@@ -187,19 +230,28 @@ for tokens in liste_questions[2]:
                 if(token[1] == "VBG"):
                     rel += token[0] + " "
                 if(token[1] == "NNP" or token[1] == "NNPS"):
-                    ressources += token[0] + " "
+                    if(ressources == ""):
+                        ressources += token[0]
+                    else:
+                        ressources += " " + token[0]
                     bool = True
                 elif(token[1] == "IN" and bool == True):
-                    ressources += token[0] + " "
+                    if(ressources == ""):
+                        ressources += token[0]
+                    else:
+                        ressources += " " + token[0]
                     bool = False
                 else:
                     bool = False
+            #rel = check_relations(rel)
             # Création du query
-            q = "PREFIX dbo: <http://dbpedia.org/ontology/>PREFIX res: <http://dbpedia.org/resource/> SELECT DISTINCT ?string WHERE {res:"+ ressources + "foaf:" + rel +" ?string .}"
+            q = "PREFIX dbo: <http://dbpedia.org/ontology/>PREFIX res: <http://dbpedia.org/resource/> SELECT DISTINCT ?string WHERE {res:"+ replace(ressources) + " foaf:" + rel +" ?string .}"
             print(colored("Query: " + q,"green"))
             print("\n")
             fichier.write(q + "\n")
-            # Ici on s'occupe des questions commençant par "How" 1/1
+            if (ressources != "" and rel != ""):
+                sparql_query(q)
+        # Ici on s'occupe des questions commençant par "How" 1/1
         if(token[0] == "How" or token[0] == "how"):
             print(colored(tokens,"red"))
             # res
@@ -219,30 +271,30 @@ for tokens in liste_questions[2]:
                 if(token[1] == "VBG"):
                     rel += token[0] + " "
                 if(token[1] == "NNP" or token[1] == "NNPS"):
-                    ressources += token[0] + " "
+                    if(ressources == ""):
+                        ressources += token[0]
+                    else:
+                        ressources += " " + token[0]
                     bool = True
                 elif(token[1] == "IN" and bool == True):
-                    ressources += token[0] + " "
+                    if(ressources == ""):
+                        ressources += token[0]
+                    else:
+                        ressources += " " + token[0]
                     bool = False
                 else:
                     bool = False
             rel = check_relations(rel)
             # Création du query
-            q = "PREFIX dbo: <http://dbpedia.org/ontology/>PREFIX res: <http://dbpedia.org/resource/> SELECT DISTINCT ?number WHERE {res:"+ ressources + rel +" ?number .}"
+            q = "PREFIX dbo: <http://dbpedia.org/ontology/>PREFIX res: <http://dbpedia.org/resource/> SELECT DISTINCT ?number WHERE {res:"+ replace(ressources)  + " " + rel +" ?number .}"
             print(colored("Query: " + q,"green"))
             print("\n")
             fichier.write(q + "\n")
-
+            if (ressources != "" and rel != ""):
+                sparql_query(q)
 fichier.close()
-# Exemple d'utilisation de la libraire sparql
 
-# SELECT DISTINCT ?uriWHERE {res:Wikipedia dbo:author ?uri .}
-#sparql = SPARQLWrapper("http://dbpedia.org/sparql")
-#ressources = "test"
-#author = "test"
-#q = "PREFIX dbo: <http://dbpedia.org/ontology/>PREFIX res: <http://dbpedia.org/resource/> SELECT DISTINCT ?uri WHERE {res:" + ressources + "dbo:" +author+" ?uri .}"
-#sparql.setQuery(q)
-#sparql.setReturnFormat(JSON)
-#results = sparql.query()
-#results.print_results()
-#print()
+# To do :
+# Evaluation 
+# Récupérer les anwsers
+# Récupérer les questions ??

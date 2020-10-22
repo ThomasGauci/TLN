@@ -1,4 +1,4 @@
-PREFIX dbo: <http://dbpedia.org/ontology/>PREFIX res: <http://dbpedia.org/resource/> SELECT DISTINCT ?uri WHERE {res:Brooklyn Bridge dbo:crosses ?uri .}
+PREFIX dbo: <http://dbpedia.org/ontology/>PREFIX res: <http://dbpedia.org/resource/> SELECT DISTINCT ?uri WHERE {res:Brooklyn_Bridge dbo:crosses ?uri .}
 Réponse XML : PREFIX dbo: <http://dbpedia.org/ontology/> PREFIX res: <http://dbpedia.org/resource/> SELECT DISTINCT ?uri WHERE { res:Brooklyn_Bridge dbo:crosses ?uri . }
 
 PREFIX dbo: <http://dbpedia.org/ontology/>PREFIX res: <http://dbpedia.org/resource/> SELECT DISTINCT ?uri WHERE {res:Wikipedia dbo:creator ?uri .}
@@ -10,37 +10,37 @@ Réponse XML :PREFIX dbo: <http://dbpedia.org/ontology/>PREFIX res: <http://dbpe
 PREFIX dbo: <http://dbpedia.org/ontology/>PREFIX res: <http://dbpedia.org/resource/> SELECT DISTINCT ?uri WHERE {res:Karakoram dbo:highestPlace ?uri .}
 Réponse XML : PREFIX dbo: <http://dbpedia.org/ontology/>PREFIX res: <http://dbpedia.org/resource/>SELECT DISTINCT ?uriWHERE {res:Karakoram dbo:highestPlace ?uri .  }
 
-PREFIX dbo: <http://dbpedia.org/ontology/>PREFIX res: <http://dbpedia.org/resource/> SELECT DISTINCT ?uri WHERE {res:Brooklyn Bridge dbp:designer ?uri .}
+PREFIX dbo: <http://dbpedia.org/ontology/>PREFIX res: <http://dbpedia.org/resource/> SELECT DISTINCT ?uri WHERE {res:Brooklyn_Bridge dbp:designer ?uri .}
 Réponse XML : PREFIX res: <http://dbpedia.org/resource/>PREFIX dbp: <http://dbpedia.org/property/>SELECT DISTINCT ?uri WHERE {res:Brooklyn_Bridge dbp:designer ?uri .}
 
 PREFIX dbo: <http://dbpedia.org/ontology/>PREFIX res: <http://dbpedia.org/resource/> SELECT DISTINCT ?uri WHERE {res:Goofy dbo:creator ?uri .}
 Réponse XML : PREFIX dbo: <http://dbpedia.org/ontology/>PREFIX res: <http://dbpedia.org/resource/>SELECT DISTINCT ?uriWHERE {res:Goofy dbo:creator ?uri .}
 
-PREFIX dbo: <http://dbpedia.org/ontology/>PREFIX res: <http://dbpedia.org/resource/> SELECT DISTINCT ?uri WHERE {res:New York City  ?uri .}
+PREFIX dbo: <http://dbpedia.org/ontology/>PREFIX res: <http://dbpedia.org/resource/> SELECT DISTINCT ?uri WHERE {res:New_York_City  ?uri .}
 Réponse XML : PREFIX dbo: <http://dbpedia.org/ontology/>PREFIX res: <http://dbpedia.org/resource/>SELECT DISTINCT ?uriWHERE {res:New_York_City dbo:leaderName ?uri .}
 
 PREFIX dbo: <http://dbpedia.org/ontology/>PREFIX res: <http://dbpedia.org/resource/> SELECT DISTINCT ?uri WHERE {res:Yenisei dbp:country ?uri .}
 Réponse XML : PREFIX res: <http://dbpedia.org/resource/>PREFIX dbp: <http://dbpedia.org/property/>SELECT DISTINCT ?uri WHERE {res:Yenisei_River dbp:country ?uri .}
 
-PREFIX dbo: <http://dbpedia.org/ontology/>PREFIX res: <http://dbpedia.org/resource/> SELECT DISTINCT ?uri WHERE {res:Which Munch dbp:museum ?uri .}
+PREFIX dbo: <http://dbpedia.org/ontology/>PREFIX res: <http://dbpedia.org/resource/> SELECT DISTINCT ?uri WHERE {res:Which_Munch dbp:museum ?uri .}
 Réponse XML : PREFIX dbp: <http://dbpedia.org/property/>PREFIX res: <http://dbpedia.org/resource/>SELECT DISTINCT ?uriWHERE {res:The_Scream dbp:museum ?uri .}
 
 PREFIX dbo: <http://dbpedia.org/ontology/>PREFIX res: <http://dbpedia.org/resource/> SELECT DISTINCT ?uri WHERE {res:Illinois dbo:producer ?uri .}
 Réponse XML : PREFIX res: <http://dbpedia.org/resource/>PREFIX dbp: <http://dbpedia.org/property/>SELECT DISTINCT ?uri WHERE {res:Illinois dbp:borderingstates ?uri .}
 
-PREFIX dbo: <http://dbpedia.org/ontology/>PREFIX res: <http://dbpedia.org/resource/> SELECT DISTINCT ?uri WHERE {res:U.S. Lincoln dbp:awards ?uri .}
+PREFIX dbo: <http://dbpedia.org/ontology/>PREFIX res: <http://dbpedia.org/resource/> SELECT DISTINCT ?uri WHERE {res:U.S._Lincoln dbp:awards ?uri .}
 Réponse XML : PREFIX dbo: <http://dbpedia.org/ontology/>PREFIX res: <http://dbpedia.org/resource/>SELECT DISTINCT ?uri WHERE {res:Abraham_Lincoln dbo:spouse ?uri.}
 
 PREFIX dbo: <http://dbpedia.org/ontology/>PREFIX res: <http://dbpedia.org/resource/> SELECT DISTINCT ?uri WHERE {res:GIMP dbo:programmingLanguage ?uri .}
 Réponse XML : PREFIX dbo: <http://dbpedia.org/ontology/>PREFIX res: <http://dbpedia.org/resource/>SELECT DISTINCT ?uri WHERE { res:GIMP dbo:programmingLanguage ?uri .}
 
-PREFIX dbo: <http://dbpedia.org/ontology/>PREFIX res: <http://dbpedia.org/resource/> SELECT DISTINCT ?uri WHERE {res:Limerick Lake dbp:country ?uri .}
+PREFIX dbo: <http://dbpedia.org/ontology/>PREFIX res: <http://dbpedia.org/resource/> SELECT DISTINCT ?uri WHERE {res:Limerick_Lake dbp:country ?uri .}
 Réponse XML : PREFIX dbo: <http://dbpedia.org/ontology/>PREFIX res: <http://dbpedia.org/resource/>SELECT DISTINCT ?uri WHERE { res:Limerick_Lake dbo:country ?uri .}
 
-PREFIX dbo: <http://dbpedia.org/ontology/>PREFIX res: <http://dbpedia.org/resource/> SELECT DISTINCT ?uri WHERE {res:Czech Republic dbo:currency  ?uri .}
+PREFIX dbo: <http://dbpedia.org/ontology/>PREFIX res: <http://dbpedia.org/resource/> SELECT DISTINCT ?uri WHERE {res:Czech_Republic dbo:currency  ?uri .}
 Réponse XML : PREFIX dbo: <http://dbpedia.org/ontology/>PREFIX res: <http://dbpedia.org/resource/>SELECT DISTINCT ?uriWHERE {res:Czech_Republic dbo:currency ?uri .}
 
-PREFIX dbo: <http://dbpedia.org/ontology/>PREFIX res: <http://dbpedia.org/resource/> SELECT DISTINCT ?uri WHERE {res:World Warcraft dbo:developer ?uri .}
+PREFIX dbo: <http://dbpedia.org/ontology/>PREFIX res: <http://dbpedia.org/resource/> SELECT DISTINCT ?uri WHERE {res:World_Warcraft dbo:developer ?uri .}
 Réponse XML : PREFIX dbo: <http://dbpedia.org/ontology/>PREFIX res: <http://dbpedia.org/resource/>SELECT DISTINCT ?uri WHERE {res:World_of_Warcraft dbo:developer ?uri .}
 
 PREFIX dbo: <http://dbpedia.org/ontology/>PREFIX res: <http://dbpedia.org/resource/> SELECT DISTINCT ?uri WHERE {res:Aldi  ?uri .}
@@ -52,13 +52,13 @@ Réponse XML : PREFIX dbo: <http://dbpedia.org/ontology/>PREFIX res: <http://dbp
 PREFIX dbo: <http://dbpedia.org/ontology/>PREFIX res: <http://dbpedia.org/resource/> SELECT DISTINCT ?uri WHERE {res:Berlin dbo:areaCode ?uri .}
 Réponse XML : PREFIX dbo: <http://dbpedia.org/ontology/>PREFIX res: <http://dbpedia.org/resource/>SELECT DISTINCT ?string WHERE {res:Berlin dbo:areaCode ?string .}
 
-PREFIX dbo: <http://dbpedia.org/ontology/>PREFIX res: <http://dbpedia.org/resource/> SELECT DISTINCT ?date WHERE {res:Battle of Gettysburg dbo:date ?date .}
+PREFIX dbo: <http://dbpedia.org/ontology/>PREFIX res: <http://dbpedia.org/resource/> SELECT DISTINCT ?date WHERE {res:Battle_of_Gettysburg dbo:date ?date .}
 Réponse XML : PREFIX dbo: <http://dbpedia.org/ontology/>PREFIX res: <http://dbpedia.org/resource/>SELECT DISTINCT ?date WHERE { res:Battle_of_Gettysburg dbo:date ?date .}
 
 PREFIX dbo: <http://dbpedia.org/ontology/>PREFIX res: <http://dbpedia.org/resource/> SELECT DISTINCT ?uri WHERE {res:Philippines dbo:officialLanguage ?uri .}
 Réponse XML : PREFIX dbo: <http://dbpedia.org/ontology/>PREFIX res: <http://dbpedia.org/resource/>SELECT DISTINCT ?uriWHERE {es:Philippines dbo:officialLanguage ?uri .}
 
-PREFIX dbo: <http://dbpedia.org/ontology/>PREFIX res: <http://dbpedia.org/resource/> SELECT DISTINCT ?uri WHERE {res:Les Piliers dbo:uri ?uri .}
+PREFIX dbo: <http://dbpedia.org/ontology/>PREFIX res: <http://dbpedia.org/resource/> SELECT DISTINCT ?uri WHERE {res:Les_Piliers dbo:date ?uri .}
 Réponse XML : PREFIX dbo: <http://dbpedia.org/ontology/>PREFIX res: <http://dbpedia.org/resource/>SELECT DISTINCT ?uri WHERE {res:The_Pillars_of_the_Earth dbo:author ?uri .}
 
 PREFIX dbo: <http://dbpedia.org/ontology/>PREFIX res: <http://dbpedia.org/resource/> SELECT DISTINCT ?string WHERE {res:Forbes foaf:homepage  ?string .}
@@ -67,11 +67,11 @@ Réponse XML : PREFIX res: <http://dbpedia.org/resource/>PREFIX foaf: <http://xm
 PREFIX dbo: <http://dbpedia.org/ontology/>PREFIX res: <http://dbpedia.org/resource/> SELECT DISTINCT ?uri WHERE {res:WikiLeaks dbp:awards ?uri .}
 Réponse XML : PREFIX res: <http://dbpedia.org/resource/>PREFIX dbp: <http://dbpedia.org/property/>SELECT DISTINCT ?uriWHERE {res:WikiLeaks dbp:awards ?uri .}
 
-PREFIX dbo: <http://dbpedia.org/ontology/>PREFIX res: <http://dbpedia.org/resource/> SELECT DISTINCT ?uri WHERE {res:Action Hero foaf:actors starring Last  ?uri .}
+PREFIX dbo: <http://dbpedia.org/ontology/>PREFIX res: <http://dbpedia.org/resource/> SELECT DISTINCT ?string WHERE {res:Action_Hero foaf:actors starring Last  ?string .}
 Réponse XML : PREFIX dbp: <http://dbpedia.org/property/>PREFIX res: <http://dbpedia.org/resource/>SELECT DISTINCT ?uri WHERE {res:Last_Action_Hero dbp:starring ?uri .}
 
-PREFIX dbo: <http://dbpedia.org/ontology/>PREFIX res: <http://dbpedia.org/resource/> SELECT DISTINCT ?uri WHERE {res:Universal Studios  ?uri .}
+PREFIX dbo: <http://dbpedia.org/ontology/>PREFIX res: <http://dbpedia.org/resource/> SELECT DISTINCT ?uri WHERE {res:Universal_Studios  ?uri .}
 Réponse XML : PREFIX dbo: <http://dbpedia.org/ontology/>PREFIX res: <http://dbpedia.org/resource/>SELECT DISTINCT ?uriWHERE {res:Universal_Studios dbo:owner ?uri .}
 
-PREFIX dbo: <http://dbpedia.org/ontology/>PREFIX res: <http://dbpedia.org/resource/> SELECT DISTINCT ?uri WHERE {res:Bruce Carver dbo:series ?uri .}
+PREFIX dbo: <http://dbpedia.org/ontology/>PREFIX res: <http://dbpedia.org/resource/> SELECT DISTINCT ?uri WHERE {res:Bruce_Carver dbo:series ?uri .}
 Réponse XML : PREFIX res: <http://dbpedia.org/resource/>PREFIX dbo: <http://dbpedia.org/ontology/>SELECT DISTINCT ?uriWHERE {res:Bruce_Carver dbo:deathCause ?uri .}

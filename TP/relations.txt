@@ -54,3 +54,4 @@ dbp:country
 dbp:museum
 dbp:starring
 dbp:designer
+foaf:hompage
