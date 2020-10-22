@@ -81,7 +81,7 @@
 		<keywords lang="it">Karakoram, punto più alto</keywords>
 		<keywords lang="fr">Karakoram, endroit le plus haut</keywords>
 		<keywords lang="nl">hoogste punt, Karakoram</keywords>
-		<query> <!--PREFIX dbo: <http://dbpedia.org/ontology/>PREFIX res: <http://dbpedia.org/resource/>SELECT DISTINCT ?uriWHERE {               res:Karakoram dbo:highestPlace ?uri .  }-->
+		<query> <!--PREFIX dbo: <http://dbpedia.org/ontology/>PREFIX res: <http://dbpedia.org/resource/>SELECT DISTINCT ?uriWHERE {res:Karakoram dbo:highestPlace ?uri .  }-->
 		</query>
 		<answers>
 			<answer>

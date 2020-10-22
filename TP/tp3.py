@@ -18,7 +18,7 @@ for ligne in file:
     relations.append(ligne.rstrip('\n\r'))
 #print(relations)
 
-# Méthode permettant de chercher la relation qui ressemble synthématiquement au plus a notre paramètre message
+# Méthode permettant de chercher la relation qui ressemble syntaxematiquement au plus a notre paramètre message
 def check_relations(message):
     print("Recherche de la relation machant avec : " + message)
     rel = "none"
@@ -60,6 +60,9 @@ for questions in dataset:
                 # On récupère les entities
                 liste_questions[3].append(nltk.chunk.ne_chunk(tagged))
 
+# Fichier contenant toutes les query
+fichier = open("evaluations.txt", "a")
+
 # On va maintenant chercher les élements importants des questions 
 for tokens in liste_questions[2]:
     #print(tokens)  
@@ -81,6 +84,7 @@ for tokens in liste_questions[2]:
             q = "PREFIX dbo: <http://dbpedia.org/ontology/>PREFIX res: <http://dbpedia.org/resource/> SELECT DISTINCT ?uri WHERE {res:" + ressources +rel+" ?uri .}"
             print(colored("Query: " + q,"green"))
             print("\n")
+            fichier.write(q + "\n")
         # Ici on s'occupe des questions commençant par "When" 1/1
         if(token[0] == "When" or token[0] == "when"):
             print(colored(tokens,"red"))
@@ -100,6 +104,7 @@ for tokens in liste_questions[2]:
             q = "PREFIX dbo: <http://dbpedia.org/ontology/>PREFIX res: <http://dbpedia.org/resource/> SELECT DISTINCT ?date WHERE {res:"+ ressources +"dbo:date ?date .}"
             print(colored("Query: " + q,"green"))
             print("\n")
+            fichier.write(q + "\n")
         # Ici on s'occupe des questions commençant par "Which" 6/8
         if(token[0] == "Which" or token[0] == "which"):
             print(colored(tokens,"red"))
@@ -126,9 +131,10 @@ for tokens in liste_questions[2]:
             # On cherche la relation qui match le plus
             rel = check_relations(rel)
             # Création du query
-            q = "PREFIX dbo: <http://dbpedia.org/ontology/>PREFIX res: <http://dbpedia.org/resource/> SELECT DISTINCT ?date WHERE {res:"+ ressources + rel + " ?date .}"
+            q = "PREFIX dbo: <http://dbpedia.org/ontology/>PREFIX res: <http://dbpedia.org/resource/> SELECT DISTINCT ?uri WHERE {res:"+ ressources + rel + " ?uri .}"
             print(colored("Query: " + q,"green"))
             print("\n")
+            fichier.write(q + "\n")
         # Ici on s'occupe des questions commençant par "What" 4/5
         if(token[0] == "What" or token[0] == "what"):
             print(colored(tokens,"red"))
@@ -157,9 +163,10 @@ for tokens in liste_questions[2]:
             # On cherche la relation qui match le plus
             rel = check_relations(rel)
             # Création du query
-            q = "PREFIX dbo: <http://dbpedia.org/ontology/>PREFIX res: <http://dbpedia.org/resource/> SELECT DISTINCT ?date WHERE {res:"+ ressources + rel +" ?date .}"
+            q = "PREFIX dbo: <http://dbpedia.org/ontology/>PREFIX res: <http://dbpedia.org/resource/> SELECT DISTINCT ?uri WHERE {res:"+ ressources + rel +" ?uri .}"
             print(colored("Query: " + q,"green"))
             print("\n")
+            fichier.write(q + "\n")
         # Ici on s'occupe des questions commençant par "Give" 1/2
         if(token[0] == "Give" or token[0] == "give"):
             print(colored(tokens,"red"))
@@ -188,10 +195,45 @@ for tokens in liste_questions[2]:
                 else:
                     bool = False
             # Création du query
-            q = "PREFIX dbo: <http://dbpedia.org/ontology/>PREFIX res: <http://dbpedia.org/resource/> SELECT DISTINCT ?date WHERE {res:"+ ressources + "foaf:" + rel +" ?date .}"
+            q = "PREFIX dbo: <http://dbpedia.org/ontology/>PREFIX res: <http://dbpedia.org/resource/> SELECT DISTINCT ?string WHERE {res:"+ ressources + "foaf:" + rel +" ?string .}"
             print(colored("Query: " + q,"green"))
             print("\n")
+            fichier.write(q + "\n")
+            # Ici on s'occupe des questions commençant par "How" 1/1
+        if(token[0] == "How" or token[0] == "how"):
+            print(colored(tokens,"red"))
+            # res
+            ressources = ""
+            # foaf
+            rel = ""
+            bool = False
+            for token in tokens:  
+                if(token[1] == "NN"):
+                    rel += token[0] + " "
+                if(token[1] == "JJ"):
+                    rel += token[0] + " "
+                if(token[1] == "JJS"):
+                    rel += token[0] + " "
+                if(token[1] == "NNS"):
+                    rel += token[0] + " "
+                if(token[1] == "VBG"):
+                    rel += token[0] + " "
+                if(token[1] == "NNP" or token[1] == "NNPS"):
+                    ressources += token[0] + " "
+                    bool = True
+                elif(token[1] == "IN" and bool == True):
+                    ressources += token[0] + " "
+                    bool = False
+                else:
+                    bool = False
+            rel = check_relations(rel)
+            # Création du query
+            q = "PREFIX dbo: <http://dbpedia.org/ontology/>PREFIX res: <http://dbpedia.org/resource/> SELECT DISTINCT ?number WHERE {res:"+ ressources + rel +" ?number .}"
+            print(colored("Query: " + q,"green"))
+            print("\n")
+            fichier.write(q + "\n")
 
+fichier.close()
 # Exemple d'utilisation de la libraire sparql
 
 # SELECT DISTINCT ?uriWHERE {res:Wikipedia dbo:author ?uri .}
