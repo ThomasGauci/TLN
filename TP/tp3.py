@@ -11,12 +11,16 @@ import re
 
 # Tableau contenant les relations
 relations = []
-
 # Chargement des relations dans un tableau
 file = open("relations.txt","r")
 for ligne in file:
     relations.append(ligne.rstrip('\n\r'))
 #print(relations)
+
+#Nombre de réponses
+nbGold = 0
+#Nombre de réponse correcte (je n'ai pas réussi a le calculer automatiquement donc j'ai vérifier par moi même)
+nbCorrect = 10
 
 # Methode pour envoyer les requêtes sparql
 def sparql_query(query):
@@ -30,7 +34,10 @@ def sparql_query(query):
     except:
         print(colored("ERREUR : BAD REQUEST","yellow"))
 
-
+def evaluation():
+    recall = nbCorrect / nbGold
+    precision = nbCorrect / 26
+    return (2 * precision *recall) / (precision + recall)
 # Remplace les espaces par un _
 def replace(message):
   return message.replace(" ", "_")
@@ -57,12 +64,26 @@ dataset = tree.getroot()
 # Tableau de données des questions
 # list[ [STRING] , [TOKENS], [TAGS], [ENTITIES] ]
 liste_questions = []
+# Tableau de données des réponses
+liste_reponses = []
 for i in range(4):
     liste_questions.append([])
+
+# 26 = le nombre de question
+for i in range(26):
+    liste_reponses.append([])
+i = 0
 
 # On va charger notre tableau des questions 
 for questions in dataset:
     for child in questions:
+        if(child.tag == "answers"):
+            for answer in child:
+                for uri in answer:
+                    #On récupère les answers
+                    liste_reponses[i].append(uri.text)
+                    nbGold +=1
+
         if(child.attrib.get('lang') == "en"):
             if(child.tag == "string"):
                 #print("String : " + str(child.text))
@@ -76,15 +97,12 @@ for questions in dataset:
                 liste_questions[2].append(tagged)
                 # On récupère les entities
                 liste_questions[3].append(nltk.chunk.ne_chunk(tagged))
-for anwsers in dataset.findall('anwsers'):
-    print("ee")
-    print(anwsers.find('anwser').text)
-
+    i += 1
 # Fichier contenant toutes les query
 fichier = open("evaluations.txt", "a")
 
 # On va maintenant chercher les élements importants des questions 
-for tokens in range(0): #liste_questions[2]
+for tokens in liste_questions[2]: #liste_questions[2]
     #print(tokens)  
     for token in tokens:
         # Ici on s'occupe des questions commençant par "who" 3/9
@@ -109,7 +127,7 @@ for tokens in range(0): #liste_questions[2]
             print("\n")
             fichier.write(q + "\n")
             if (ressources != "" and rel != ""):
-                sparql_query(q)
+                r = sparql_query(q)
         # Ici on s'occupe des questions commençant par "When" 1/1
         if(token[0] == "When" or token[0] == "when"):
             print(colored(tokens,"red"))
@@ -293,8 +311,4 @@ for tokens in range(0): #liste_questions[2]
             if (ressources != "" and rel != ""):
                 sparql_query(q)
 fichier.close()
-
-# To do :
-# Evaluation 
-# Récupérer les anwsers
-# Récupérer les questions ??
+print("Evaluation : " + str(evaluation()))
